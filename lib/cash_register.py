@@ -6,28 +6,31 @@ class CashRegister:
     self.discount = discount
     self.total = 0
     self.items = []
-    self.previous_transaction = []
-    
+    self.previous_transactions = []
+  
   def add_item(self, title, price, quantity = 1):
-    self.total += price * quantity
-    for n in range(quantity):
-        self.items.append(title)
-    self.previous_transaction.append(
-      {"item": title, "price": price, "quantity": quantity}
+    self.total = self.total + (price * quantity)
+    for item in range(quantity):
+      self.items.append(title)
+    self.previous_transactions.append(
+      {
+        'title': title,
+        'price': price, 
+        'quantity': quantity
+      }
     )
     
   def apply_discount(self):
-    if self.discount == 0:
-      print("There is no discount to apply.")
-    else:  
-      discount_total = self.total * (self.discount / 100)
-      self.total -= discount_total
+    if self.discount > 0:
+      self.total = self.total - (self.total * (self.discount / 100))
       print(f"After the discount, the total comes to ${int(self.total)}.")
-      
+    else:
+      print("There is no discount to apply.")
+
   def void_last_transaction(self):
-    last_transaction = self.previous_transaction.pop()
-    self.total -= last_transaction["price"] * last_transaction["quantity"]
-    for n in range(last_transaction["quantity"]):
-      self.items.pop()
-    if not self.items:
-      self.total = 0
+    last_transaction = self.previous_transactions.pop()
+    self.total = self.total - (last_transaction["price"] * last_transaction["quantity"])
+  
+  
+# cash = CashRegister()
+# ipdb.set_trace()
